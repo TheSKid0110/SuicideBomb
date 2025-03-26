@@ -32,25 +32,19 @@ function SWEP:PrimaryAttack()
     self:SetNextPrimaryFire(CurTime() + 10)
 
     if SERVER then
-        -- Get the player who used the weapon
         local owner = self:GetOwner()
         if not IsValid(owner) then return end
-
-        -- Create an explosion effect
         local explosion = ents.Create("env_explosion")
-        explosion:SetPos(owner:GetPos()) -- Set the explosion at the player's position
+        explosion:SetPos(owner:GetPos())
         explosion:SetOwner(owner)
         explosion:Spawn()
-        explosion:SetKeyValue("iMagnitude", "100") -- Explosion damage
+        explosion:SetKeyValue("iMagnitude", "100")
         explosion:Fire("Explode", 0, 0)
 
-        -- Apply blast damage
         util.BlastDamage(self, owner, owner:GetPos(), 200, 100)
 
-        -- Kill the player
         owner:Kill()
 
-        -- Remove the weapon
         self:Remove()
     end
 end
